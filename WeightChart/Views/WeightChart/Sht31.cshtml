@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Sht31";
+}
+
+<div id="chartContainer"></div>
+
+<script type="text/javascript">
+
+    $(function() {
+
+        let points = @Html.Raw(ViewBag.DataPoints);
+        var convertedPoints = new Array();
+
+        $.each(points, function(index, value) {
+            let date = convertToDate(value.ReadingTime);
+            let dd = parseFloat(value.Temperature);
+            let obj = {
+                x: convertToDate(value.ReadingTime),
+                y: parseFloat(value.Temperature) * 1000000
+            }
+            convertedPoints.push(obj)
+        });
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title: {
+                text: "Sht31 Temperature"
+            },
+            animationEnabled: true,
+            axisY: {
+                title: "Units Sold",
+                valueFormatString: "#0,,.",
+                suffix: " m"
+            },
+            data: [
+                {
+                    toolTipContent: "{y} C",
+                    type: "splineArea",
+                    markerSize: 5,
+                    color: "rgba(54,158,173,.7)",              
+                    dataPoints: convertedPoints            
+                }
+            ]
+        });
+
+        chart.render();
+    });
+
+    function convertToDate(dateString) {
+        let all = dateString.split(" ");
+        let date = all[0].split('.');
+        let time = all[1].split(':');
+
+        let dat = new Date(date[2], date[1] - 1, date[0], time[0], time[1], time[2]);
+
+        return dat;
+    }
+</script>
+
+@*<script src="~/js/Sht31.js"></script>*@
