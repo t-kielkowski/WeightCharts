@@ -2,48 +2,96 @@
     ViewBag.Title = "Sht31";
 }
 
-<div id="chartContainer"></div>
+<div id="chartTemp" style="margin-top:75px"></div>
+<div id="chartMois"></div>
 
 <script type="text/javascript">
 
     $(function() {
 
         let points = @Html.Raw(ViewBag.DataPoints);
-        var convertedPoints = new Array();
+        let tempPoints = points.Temperature;
+        let moisPoints = points.Moisture;
 
-        $.each(points, function(index, value) {
-            let date = convertToDate(value.ReadingTime);
-            let dd = parseFloat(value.Temperature);
-            let obj = {
+        DrawTempChart(tempPoints);
+
+        let chartTempHeight = $('#chartTemp')[0].scrollHeight + 200;
+        $('#chartMois').attr('style', `margin-top:${chartTempHeight}px`);
+
+        DrawMoisChart(moisPoints);
+    });
+
+    function DrawTempChart(tempPoints) {
+
+        let convertedPoints = new Array();
+
+        $.each(tempPoints, function(index, value) {
+            let singlePoint = {
                 x: convertToDate(value.ReadingTime),
-                y: parseFloat(value.Temperature) * 1000000
+                y: parseFloat(value.Temperature)
             }
-            convertedPoints.push(obj)
+            convertedPoints.push(singlePoint)
         });
 
-        var chart = new CanvasJS.Chart("chartContainer", {
+        var chartTemp = new CanvasJS.Chart("chartTemp", {
             title: {
                 text: "Sht31 Temperature"
             },
             animationEnabled: true,
             axisY: {
-                title: "Units Sold",
-                valueFormatString: "#0,,.",
-                suffix: " m"
+                title: "Stopnie celsjusza",
+                valueFormatString: "#0",
+                suffix: " C"
             },
             data: [
                 {
                     toolTipContent: "{y} C",
                     type: "splineArea",
                     markerSize: 5,
-                    color: "rgba(54,158,173,.7)",              
-                    dataPoints: convertedPoints            
+                    color: "rgba(54,158,173,.7)",
+                    dataPoints: convertedPoints
                 }
             ]
         });
 
-        chart.render();
-    });
+        chartTemp.render();
+    }
+
+    function DrawMoisChart(moisPoints) {
+
+        let convertedPoints = new Array();
+
+        $.each(moisPoints, function(index, value) {
+            let singlePoint = {
+                x: convertToDate(value.ReadingTime),
+                y: parseFloat(value.Moisture)
+            }
+            convertedPoints.push(singlePoint)
+        });
+
+        var chartTemp = new CanvasJS.Chart("chartMois", {
+            title: {
+                text: "Sht31 Moisture"
+            },
+            animationEnabled: true,
+            axisY: {
+                title: "Wilgotność powietrza ",
+                valueFormatString: "#0",
+                suffix: " %"
+            },
+            data: [
+                {
+                    toolTipContent: "{y} %",
+                    type: "splineArea",
+                    markerSize: 5,
+                    color: "rgba(54,158,173,.7)",
+                    dataPoints: convertedPoints
+                }
+            ]
+        });
+
+        chartTemp.render();
+    }
 
     function convertToDate(dateString) {
         let all = dateString.split(" ");
