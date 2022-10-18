@@ -1,7 +1,11 @@
+using MediatR;
+using WeightCharts.Application.Feature.Beehive;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(); 
+builder.Services.AddMediatR(typeof(GetSensorDataQuery));
 
 var app = builder.Build();
 

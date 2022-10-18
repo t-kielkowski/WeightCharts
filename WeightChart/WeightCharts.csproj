@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Views\Beehive\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WeightCharts.Application\WeightCharts.Application.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/bamboo-spec.json" /></VisualStudio></ProjectExtensions>

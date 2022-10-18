@@ -1,28 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using WeightCharts.Application.Feature.Beehive;
 
 namespace WeightCharts.Controllers
 {
-    public class WeightChartController : Controller
+    public class WeightChartController : BaseController
     {
         private readonly ILogger _logger;
         private readonly JsonSerializerSettings _jsonSetting = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
 
-        public WeightChartController(ILogger<WeightChartController> logger)
+        public WeightChartController(ILogger<WeightChartController> logger, IMediator mediator) : base(mediator)
         {
             _logger = logger;
         }
 
         public async Task<IActionResult> Sht31()
-        {            
+        {
+            var command = new GetSensorDataQuery(7);
+            var result = await Mediator.Send(command).ConfigureAwait(false);
 
-            var model = new
-            {
-                Temperature = temp,
-                Moisture = mois,
-            };
+            //var model = new
+            //{
+            //    Temperature = temp,
+            //    Moisture = mois,
+            //};
 
-            ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
+            //ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
 
             return View();
         }
