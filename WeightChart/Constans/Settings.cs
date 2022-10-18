@@ -1,4 +1,4 @@
-﻿namespace WeightChart.Constans
+﻿namespace WeightCharts.Constans
 {
     public static class Settings
     {
