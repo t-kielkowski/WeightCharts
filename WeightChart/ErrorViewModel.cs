@@ -1,4 +1,5 @@
-namespace WeightChart
+namespace WeightCharts
+
 {
     public class ErrorViewModel
     {
