@@ -20,13 +20,18 @@ namespace WeightCharts.Controllers
             var command = new GetSensorDataQuery(7);
             var result = await Mediator.Send(command).ConfigureAwait(false);
 
-            //var model = new
-            //{
-            //    Temperature = temp,
-            //    Moisture = mois,
-            //};
+            if (result.IsValid)
+            {
+                var model = new
+                {
+                    Temperature = result.Data.Temperature,
+                    Moisture = result.Data.Moisture
+                };
 
-            //ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
+                ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
+
+                return View();
+            }
 
             return View();
         }
