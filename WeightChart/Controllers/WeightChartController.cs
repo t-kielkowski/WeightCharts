@@ -1,77 +1,108 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using WeightCharts.Application.ApiAccess;
 using WeightCharts.Application.Feature.Beehive;
+using WeightCharts.Application.Feature.GetBeehiveList;
+using WeightCharts.Application.Feature.GetMoistureData;
+using WeightCharts.Application.Feature.GetWeightData;
 
 namespace WeightCharts.Controllers
 {
     public class WeightChartController : BaseController
     {
-        private readonly ILogger _logger;
         private readonly JsonSerializerSettings _jsonSetting = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
 
-        public WeightChartController(ILogger<WeightChartController> logger, IMediator mediator) : base(mediator)
-        {
-            _logger = logger;
-        }
+        public WeightChartController(IMediator mediator, ILogger<WeightChartController> logger) : base(mediator, logger)
+        {}
 
-        public async Task<IActionResult> Sht31()
+        public async Task<IActionResult> GetBeehiveList()
         {
-            var command = new GetSensorDataQuery(7);
+            var command = new GetBeehiveListQuery();
             var result = await Mediator.Send(command).ConfigureAwait(false);
 
-            if (result.IsValid)
+            if (result.IsValid && result.Data is not null)
             {
                 var model = new
                 {
-                    Temperature = result.Data.Temperature,
-                    Moisture = result.Data.Moisture
+                    BeehiveList = result.Data,
                 };
 
                 ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
-
                 return View();
             }
 
-            return View();
+            return BadRequest(result);
         }
 
-        //public async Task<IActionResult> BMP280()
-        //{
-        //    var bmp280Data = await _allSensorData.bMP280Repository.GetAllAsync();
-        //    var viewModel = bmp280Data.Select(Sht31ViewModel.ToTemperatureViewModel);
-        //    ViewBag.DataPoints = JsonConvert.SerializeObject(viewModel, _jsonSetting);
+        public async Task<IActionResult> GetTempData(string beehiveId, DateTime? dateFrom, DateTime? dateTo)
+        {
+            var searchParams = CreateSearchParams(beehiveId, dateFrom, dateTo);
+            var command = new GetSensorTempDataQuery(searchParams);
+            var result = await Mediator.Send(command).ConfigureAwait(false);
 
-        //    return View();
-        //}
+            if (result.IsValid && result.Data is not null)
+            {            
+                var model = new
+                {
+                    Temperature = result.Data.Temperature,
+                    ReadingTime = result.Data.ReadingTime
+                };
 
-        //public async Task<IActionResult> BH1750()
-        //{
-        //    var bh1750Data = await _allSensorData.bH1750Repository.GetAllAsync();
-        //    var viewModel = bh1750Data.Select(Sht31ViewModel.ToTemperatureViewModel);
-        //    ViewBag.DataPoints = JsonConvert.SerializeObject(viewModel, _jsonSetting);
+                ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
+                return View("Temperature");
+            }
 
-        //    return View();
-        //}
+            return BadRequest(result);
+        } 
 
-        //public async Task<IActionResult> HDC1080()
-        //{
-        //    var hdc1080Data = await _allSensorData.hDC1080Repository.GetAllAsync();
-        //    var viewModel = hdc1080Data.Select(Sht31ViewModel.ToTemperatureViewModel);
-        //    ViewBag.DataPoints = JsonConvert.SerializeObject(viewModel, _jsonSetting);
+        public async Task<IActionResult> GetMoisData(string beehiveId, DateTime? dateFrom, DateTime? dateTo)
+        {
+            var searchParams = CreateSearchParams(beehiveId, dateFrom, dateTo);
+            var command = new GetSensorMoisDataQuery(searchParams);
+            var result = await Mediator.Send(command).ConfigureAwait(false);
 
-        //    return View();
-        //}
+            if (result.IsValid && result.Data is not null)
+            {
+                var model = new
+                {
+                    Moisture = result.Data.Moisture,
+                    ReadingTime = result.Data.ReadingTime
+                };
 
-        //public async Task<IActionResult> SoilMoiSoilMoisturesture()
-        //{
-        //    var soilMoistureData = await _allSensorData.soilMoistureRepository.GetAllAsync();
-        //    var viewModel = soilMoistureData.Select(Sht31ViewModel.ToTemperatureViewModel);
-        //    ViewBag.DataPoints = JsonConvert.SerializeObject(viewModel, _jsonSetting);
+                ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
+                return View();
+            }
 
-        //    return View();
-        //}
+            return BadRequest(result);
+        }
 
-       
+        public async Task<IActionResult> GetWeightData(string beehiveId, DateTime? dateFrom, DateTime? dateTo)
+        {
+            var searchParams = CreateSearchParams(beehiveId, dateFrom, dateTo);
+            var command = new GetSensorWeightDataQuery(searchParams);
+            var result = await Mediator.Send(command).ConfigureAwait(false);
+
+            if (result.IsValid && result.Data is not null)
+            {
+                var model = new
+                {
+                    Weight = result.Data.Weight,
+                    ReadingTime = result.Data.ReadingTime
+                };
+
+                ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
+                return View();
+            }
+
+            return BadRequest(result);
+        }
+
+        private WeightReadingsSearchParams CreateSearchParams(string id, DateTime? dateFrom, DateTime? dateTo) => new()
+        {
+            WeightId = id,
+            DateFrom = dateFrom,
+            DateTo = dateTo
+        };
     }
 }
