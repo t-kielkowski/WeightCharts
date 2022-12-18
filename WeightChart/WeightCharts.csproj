@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Beehive\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\WeightCharts.Application\WeightCharts.Application.csproj" />
   </ItemGroup>
 
