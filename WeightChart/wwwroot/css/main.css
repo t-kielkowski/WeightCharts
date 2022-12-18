@@ -1,0 +1,45 @@
+﻿
+.grid-container {
+    display: grid;
+    grid-gap: 20px;
+    width: calc(100vw - 264px);
+}
+
+.widt-100vw {
+    width: 100vw;
+}
+
+.home-title {
+    font-size: 1.3vw;   
+    margin: 5rem 0 3rem 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+#apiary {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.home-photo {
+    border: solid 1.2rem;
+    border-color: #eba937;
+    width: 30vw;
+}
+
+#verticalStripe {
+    background-color: #eba937;
+    height: 120vh;
+    position: absolute;
+    width: 23vw;
+    z-index: -100;
+}
+
+#horizontalStripe {
+    background-color: #eba937;
+    height: 19vh;
+    position: absolute;
+    width: 100vw;
+    z-index: -200;
+}
