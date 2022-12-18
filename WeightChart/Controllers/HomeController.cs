@@ -6,12 +6,8 @@ namespace WeightCharts.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly ILogger _logger;      
-
-        public HomeController(ILogger<HomeController> logger, IMediator mediator) : base(mediator)
-        {
-            _logger = logger;
-        }
+        public HomeController(ILogger<HomeController> logger, IMediator mediator) : base(mediator, logger)
+        {}
 
         public IActionResult Index()
         {
