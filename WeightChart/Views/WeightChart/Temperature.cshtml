@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Temperature";
+}
+
+<div id="chartTemp" style="margin-top:75px"></div>
+<div id="chartMois"></div>
+
+<script type="text/javascript">
+
+    $(function() {
+
+        let points = @Html.Raw(ViewBag.DataPoints);
+        let temperature = points.Temperature;
+        let readingTime = points.ReadingTime;
+
+        DrawChart(temperature, readingTime);
+
+        //let chartTempHeight = $('#chartTemp')[0].scrollHeight + 200;
+        //$('#chartMois').attr('style', `margin-top:${chartTempHeight}px`);
+    });
+
+    function DrawChart(temperature, readingTime) {
+
+        let convertedPoints = new Array();
+
+        $.each(temperature, function (index, temp) {
+            let singlePoint = {
+                x: convertToDate(readingTime[index]),
+                y: parseFloat(temp)
+            }
+            convertedPoints.push(singlePoint)
+        });
+
+        var chartTemp = new CanvasJS.Chart("chartTemp", {
+            title: {
+                text: "Temperature"
+            },
+            animationEnabled: true,
+            axisY: {
+                title: "Stopnie celsjusza",
+                valueFormatString: "#0",
+                suffix: " C"
+            },
+            data: [
+                {
+                    toolTipContent: "{y} C",
+                    type: "splineArea",
+                    markerSize: 5,
+                    color: "rgba(54,158,173,.7)",
+                    dataPoints: convertedPoints
+                }
+            ]
+        });
+
+        chartTemp.render();
+    }
+
+    function convertToDate(dateString) {
+        let all = dateString.split(" ");
+        let date = all[0].split('.');
+        let time = all[1].split(':');
+
+        let dat = new Date(date[2], date[1] - 1, date[0], time[0], time[1], time[2]);
+
+        return dat;
+    }
+</script>
+
+@*<script src="~/js/Sht31.js"></script>*@
