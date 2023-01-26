@@ -24,7 +24,7 @@ namespace WeightCharts.Application.Feature.GetWeightData
                 return new ApiResponse<BeehiveWeightDto>(beeHiveWeight);
             }
 
-            return new ApiResponse<BeehiveWeightDto>(response.ErrorMessage);
+            return new ApiResponse<BeehiveWeightDto>(!string.IsNullOrEmpty(response.ErrorMessage) ? response.ErrorMessage : _apiClient.DefaultErrorMessage);
         }
     }
 }

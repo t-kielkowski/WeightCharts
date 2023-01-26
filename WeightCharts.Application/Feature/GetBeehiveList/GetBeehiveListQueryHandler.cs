@@ -23,7 +23,7 @@ namespace WeightCharts.Application.Feature.GetBeehiveList
                 return new ApiResponse<List<string>>(beehiveList);
             }
 
-            return new ApiResponse<List<string>>(response.ErrorMessage);
+            return new ApiResponse<List<string>>(!string.IsNullOrEmpty(response.ErrorMessage) ? response.ErrorMessage : _apiClient.DefaultErrorMessage);
         }
     }
 }

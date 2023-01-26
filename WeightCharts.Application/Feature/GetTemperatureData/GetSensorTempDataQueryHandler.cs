@@ -24,7 +24,7 @@ namespace WeightCharts.Application.Feature.Beehive
                 return new ApiResponse<BeehiveTempDto>(beeHiveTemp);
             }
 
-            return new ApiResponse<BeehiveTempDto>(response.ErrorMessage);
+            return new ApiResponse<BeehiveTempDto>(!string.IsNullOrEmpty(response.ErrorMessage) ? response.ErrorMessage : _apiClient.DefaultErrorMessage);
         }
     }
 }

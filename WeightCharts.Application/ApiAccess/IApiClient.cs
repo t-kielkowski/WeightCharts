@@ -8,5 +8,6 @@ namespace WeightCharts.Application.ApiAccess
         Task<RestResponse> GetTemperatureData(IWeightReadingsSearchParams searchParams);
         Task<RestResponse> GetMoistureData(IWeightReadingsSearchParams searchParams);
         Task<RestResponse> GetWeightData(IWeightReadingsSearchParams searchParams);
+        string DefaultErrorMessage { get; }
     }
 }

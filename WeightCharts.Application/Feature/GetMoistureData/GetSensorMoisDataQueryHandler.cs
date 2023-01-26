@@ -24,7 +24,7 @@ namespace WeightCharts.Application.Feature.GetMoistureData
                 return new ApiResponse<BeehiveMoisDto>(beeHiveMois);
             }
 
-            return new ApiResponse<BeehiveMoisDto>(response.ErrorMessage);
+            return new ApiResponse<BeehiveMoisDto>(!string.IsNullOrEmpty(response.ErrorMessage) ? response.ErrorMessage : _apiClient.DefaultErrorMessage);
         }
     }
 }

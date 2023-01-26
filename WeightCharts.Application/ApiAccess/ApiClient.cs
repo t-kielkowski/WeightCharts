@@ -5,8 +5,9 @@ namespace WeightCharts.Application.ApiAccess
 {
     public class ApiClient : IApiClient
     {
+        public string DefaultErrorMessage => "Something went wrong, please try again later";
         private readonly ApiConfiguration _apiConfiguration; 
-        private RestClient _client;
+        private readonly RestClient _client;
 
         public ApiClient(IOptions<ApiConfiguration> apiConfiguration)
         {
@@ -49,7 +50,7 @@ namespace WeightCharts.Application.ApiAccess
             return response;
         }
 
-        private RestRequest AddParameters(RestRequest request, IWeightReadingsSearchParams searchParams)
+        private static RestRequest AddParameters(RestRequest request, IWeightReadingsSearchParams searchParams)
         {
             request.AddParameter("id", searchParams.WeightId);
             request.AddParameter("dateFrom", searchParams.DateFrom?.ToString());
