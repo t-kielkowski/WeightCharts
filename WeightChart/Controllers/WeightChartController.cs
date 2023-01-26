@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using WeightCharts.Application.ApiAccess;
 using WeightCharts.Application.Feature.Beehive;
 using WeightCharts.Application.Feature.GetBeehiveList;
 using WeightCharts.Application.Feature.GetMoistureData;
@@ -45,8 +44,8 @@ namespace WeightCharts.Controllers
             {            
                 var model = new
                 {
-                    Temperature = result.Data.Temperature,
-                    ReadingTime = result.Data.ReadingTime
+                    result.Data.Temperature,
+                    result.Data.ReadingTime
                 };
 
                 ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
@@ -66,8 +65,8 @@ namespace WeightCharts.Controllers
             {
                 var model = new
                 {
-                    Moisture = result.Data.Moisture,
-                    ReadingTime = result.Data.ReadingTime
+                    result.Data.Moisture,
+                    result.Data.ReadingTime
                 };
 
                 ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
@@ -87,8 +86,8 @@ namespace WeightCharts.Controllers
             {
                 var model = new
                 {
-                    Weight = result.Data.Weight,
-                    ReadingTime = result.Data.ReadingTime
+                    result.Data.Weight,
+                    result.Data.ReadingTime
                 };
 
                 ViewBag.DataPoints = JsonConvert.SerializeObject(model, _jsonSetting);
@@ -96,13 +95,6 @@ namespace WeightCharts.Controllers
             }
 
             return BadRequest(result);
-        }
-
-        private WeightReadingsSearchParams CreateSearchParams(string id, DateTime? dateFrom, DateTime? dateTo) => new()
-        {
-            WeightId = id,
-            DateFrom = dateFrom,
-            DateTo = dateTo
-        };
+        }       
     }
 }

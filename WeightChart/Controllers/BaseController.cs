@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WeightCharts.Application.ApiAccess;
 
 namespace WeightCharts.Controllers
 {
@@ -13,5 +14,12 @@ namespace WeightCharts.Controllers
             Mediator = mediator;
             Logger = logger;
         }
+
+        protected WeightReadingsSearchParams CreateSearchParams(string id, DateTime? dateFrom, DateTime? dateTo) => new()
+        {
+            WeightId = id,
+            DateFrom = dateFrom,
+            DateTo = dateTo
+        };
     }
 }
