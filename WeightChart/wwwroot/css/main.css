@@ -1,4 +1,66 @@
-﻿
+﻿@import "colors.css";
+
+:root {
+    --font-muli: "Muli", sans-serif;
+}
+
+html {
+    font-size: 20px;
+    height: 100%;
+    position: relative;
+}
+
+body {
+    /*    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;*/
+    padding-top: 3rem;
+    padding-bottom: 1.5rem;
+    min-height: 100%;
+}
+
+#header {
+    background: var(--sidebar-background);
+    height: 64px;
+    margin-bottom: 0;
+    position: fixed;
+}
+
+    #header h1,
+    #header h2,
+    #header h3,
+    #header h4,
+    #header h5 {
+        margin: 0;
+    }
+
+    #header .container-fluid {
+        padding: 8px;
+    }
+
+        #header .container-fluid > .navbar-header {
+            margin: 0;
+        }
+
+    #header .brand {
+        color: #fff;
+        display: inline-block;
+        font-size: 24px;
+        line-height: 1;
+    }
+
+        #header .brand a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        #header .brand span {
+            margin-left: 14px;
+        }
+
+.page-content-toggle {
+    margin-left: inherit !important;
+}
+
 .grid-container {
     display: grid;
     grid-gap: 20px;
@@ -9,9 +71,19 @@
     width: 100vw;
 }
 
-.home-title {
-    font-size: 1.3vw;   
-    margin: 5rem 0 3rem 0;
+#homePage {
+    color: var(--text-dark-blue);
+    cursor: pointer;
+    font-family: var(--font-muli);
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.header-title {
+    color: var(--text-dark-blue);
+    font-family: var(--font-muli);
+    font-size: 1.5rem;
+    letter-spacing: 3px;
     text-transform: uppercase;
     text-align: center;
 }
@@ -20,26 +92,10 @@
     align-items: center;
     display: flex;
     justify-content: center;
+    height: 100vh;
 }
 
 .home-photo {
     border: solid 1.2rem;
-    border-color: #eba937;
-    width: 30vw;
-}
-
-#verticalStripe {
-    background-color: #eba937;
-    height: 120vh;
-    position: absolute;
-    width: 23vw;
-    z-index: -100;
-}
-
-#horizontalStripe {
-    background-color: #eba937;
-    height: 19vh;
-    position: absolute;
-    width: 100vw;
-    z-index: -200;
+    border-color: var(--border-blue);
 }
