@@ -13,8 +13,8 @@ namespace WeightCharts.Application.Service
         {
             var command = new GetBeehiveListQuery();
             var result = await Mediator.Send(command).ConfigureAwait(false);
-
-            return result.Data;
+                        
+            return result.Data?.Count > 0 ? result.Data : new List<string>();
         }
     }
 }
